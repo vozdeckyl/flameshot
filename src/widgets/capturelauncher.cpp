@@ -75,6 +75,11 @@ CaptureLauncher::CaptureLauncher(QDialog* parent)
                 this->m_delaySpinBox->setSuffix(suffix);
             });
 
+    m_width = new QLineEdit("0");
+    m_height = new QLineEdit("0");
+    m_xOffset = new QLineEdit("0");
+    m_yOffset = new QLineEdit("0");
+
     setLastRegion();
 
     auto* dims_layout = new QHBoxLayout();
@@ -120,16 +125,16 @@ void CaptureLauncher::setLastRegion()
 
     if (!region_str.isEmpty()) {
         m_initial_rect = Region().value(region_str).toRect();
-        m_width = new QLineEdit(QString::number(m_initial_rect.width()));
-        m_height = new QLineEdit(QString::number(m_initial_rect.height()));
-        m_xOffset = new QLineEdit(QString::number(m_initial_rect.x()));
-        m_yOffset = new QLineEdit(QString::number(m_initial_rect.y()));
+        m_width->setText(QString::number(m_initial_rect.width()));
+        m_height->setText(QString::number(m_initial_rect.height()));
+        m_xOffset->setText(QString::number(m_initial_rect.x()));
+        m_yOffset->setText(QString::number(m_initial_rect.y()));
     } else {
         m_initial_rect = QRect(0, 0, 0, 0);
-        m_width = new QLineEdit("0");
-        m_height = new QLineEdit("0");
-        m_xOffset = new QLineEdit("0");
-        m_yOffset = new QLineEdit("0");
+        m_width->setText("0");
+        m_height->setText("0");
+        m_xOffset->setText("0");
+        m_yOffset->setText("0");
     }
 }
 
