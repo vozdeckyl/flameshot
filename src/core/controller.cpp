@@ -567,6 +567,12 @@ void Controller::exportCapture(QPixmap capture,
     int tasks = req.tasks(), mode = req.captureMode();
     QString path = req.path();
 
+    ConfigHandler config;
+    config.setLastRegion(QString::number(selection.width()) + "x" +
+                         QString::number(selection.height()) + "+" +
+                         QString::number(selection.x()) + "+" +
+                         QString::number(selection.y()));
+
     if (tasks & CR::PRINT_GEOMETRY) {
         QByteArray byteArray;
         QBuffer buffer(&byteArray);

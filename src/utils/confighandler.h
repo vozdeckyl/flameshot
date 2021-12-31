@@ -115,6 +115,7 @@ public:
                          QString)
     CONFIG_GETTER_SETTER(undoLimit, setUndoLimit, int)
     CONFIG_GETTER_SETTER(buttons, setButtons, QList<CaptureTool::Type>)
+    CONFIG_GETTER_SETTER(lastRegion, setLastRegion, QString)
 
     // SPECIAL CASES
     bool startupLaunch();

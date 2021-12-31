@@ -3,15 +3,19 @@
 
 #include "capturelauncher.h"
 #include "src/core/controller.h"
+#include "src/utils/confighandler.h"
 #include "src/utils/globalvalues.h"
 #include "src/utils/screengrabber.h"
 #include "src/utils/screenshotsaver.h"
+#include "src/utils/valuehandler.h"
 #include "src/widgets/imagelabel.h"
 #include <QComboBox>
 #include <QDrag>
 #include <QFormLayout>
 #include <QGridLayout>
+#include <QHBoxLayout>
 #include <QLabel>
+#include <QLineEdit>
 #include <QMimeData>
 #include <QPushButton>
 #include <QSpinBox>
@@ -55,8 +59,6 @@ CaptureLauncher::CaptureLauncher(QDialog* parent)
     m_captureType->insertItem(
       2, tr("Full Screen (All Monitors)"), CaptureRequest::FULLSCREEN_MODE);
 #endif
-    // m_captureType->insertItem(3, tr("Single Screen"),
-    // CaptureRequest::SCREEN_MODE);
 
     m_delaySpinBox = new QSpinBox();
     m_delaySpinBox->setSingleStep(1.0);
@@ -69,9 +71,20 @@ CaptureLauncher::CaptureLauncher(QDialog* parent)
             static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             this,
             [this](int val) {
-                QString sufix = val == 1 ? tr(" second") : tr(" seconds");
-                this->m_delaySpinBox->setSuffix(sufix);
+                QString suffix = val == 1 ? tr(" second") : tr(" seconds");
+                this->m_delaySpinBox->setSuffix(suffix);
             });
+
+    setLastRegion();
+
+    auto* dims_layout = new QHBoxLayout();
+    dims_layout->addWidget(m_width);
+    dims_layout->addWidget(m_height);
+    dims_layout->addWidget(m_xOffset);
+    dims_layout->addWidget(m_yOffset);
+
+    auto* dims = new QWidget;
+    dims->setLayout(dims_layout);
 
     m_launchButton = new QPushButton(tr("Take new screenshot"));
     m_launchButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -84,6 +97,7 @@ CaptureLauncher::CaptureLauncher(QDialog* parent)
     QFormLayout* captureModeForm = new QFormLayout;
     captureModeForm->addRow(tr("Area:"), m_captureType);
     captureModeForm->addRow(tr("Delay:"), m_delaySpinBox);
+    captureModeForm->addRow(tr("WxH+x+y:"), dims);
     captureModeForm->setContentsMargins(24, 0, 0, 0);
 
     m_mainLayout = new QVBoxLayout();
@@ -98,6 +112,27 @@ CaptureLauncher::CaptureLauncher(QDialog* parent)
     layout->setColumnMinimumWidth(1, 320);
 }
 
+void CaptureLauncher::setLastRegion()
+{
+    ConfigHandler config;
+    auto region_str = config.lastRegion();
+    QRect region;
+
+    if (!region_str.isEmpty()) {
+        m_initial_rect = Region().value(region_str).toRect();
+        m_width = new QLineEdit(QString::number(m_initial_rect.width()));
+        m_height = new QLineEdit(QString::number(m_initial_rect.height()));
+        m_xOffset = new QLineEdit(QString::number(m_initial_rect.x()));
+        m_yOffset = new QLineEdit(QString::number(m_initial_rect.y()));
+    } else {
+        m_initial_rect = QRect(0, 0, 0, 0);
+        m_width = new QLineEdit("0");
+        m_height = new QLineEdit("0");
+        m_xOffset = new QLineEdit("0");
+        m_yOffset = new QLineEdit("0");
+    }
+}
+
 // HACK:
 // https://github.com/KDE/spectacle/blob/fa1e780b8bf3df3ac36c410b9ece4ace041f401b/src/Gui/KSMainWindow.cpp#L70
 void CaptureLauncher::startCapture()
@@ -107,6 +142,12 @@ void CaptureLauncher::startCapture()
     auto mode = static_cast<CaptureRequest::CaptureMode>(
       m_captureType->currentData().toInt());
     CaptureRequest req(mode, 600 + m_delaySpinBox->value() * 1000);
+
+    if (m_captureType->currentData() ==
+        CaptureRequest::CaptureMode::GRAPHICAL_MODE) {
+        req.setInitialSelection(m_initial_rect);
+    }
+
     connectCaptureSlots();
     Controller::getInstance()->requestCapture(req);
 }
@@ -177,6 +218,8 @@ void CaptureLauncher::captureTaken(QPixmap p, const QRect&)
 
     if (mode == CaptureRequest::FULLSCREEN_MODE) {
         ScreenshotSaver().saveToFilesystemGUI(p);
+    } else {
+        setLastRegion();
     }
     m_launchButton->setEnabled(true);
 }

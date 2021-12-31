@@ -6,6 +6,7 @@
 #include <QDialog>
 
 class QCheckBox;
+class QLineEdit;
 class QPushButton;
 class QVBoxLayout;
 class QComboBox;
@@ -22,6 +23,7 @@ public:
 private:
     void connectCaptureSlots();
     void disconnectCaptureSlots();
+    void setLastRegion();
 
 private slots:
     void startCapture();
@@ -36,4 +38,10 @@ private:
     QPushButton* m_launchButton;
     QLabel* m_CaptureModeLabel;
     ImageLabel* m_imageLabel;
+
+    QRect m_initial_rect;
+    QLineEdit* m_width;
+    QLineEdit* m_height;
+    QLineEdit* m_xOffset;
+    QLineEdit* m_yOffset;
 };
