@@ -8,7 +8,8 @@
 #include <QKeySequence>
 #include <QStandardPaths>
 #include <QVariant>
-
+#include <QStringView>
+#include <QRegularExpression>
 // VALUE HANDLER
 
 QVariant ValueHandler::value(const QVariant& val)
@@ -239,7 +240,7 @@ QVariant KeySequence::process(const QVariant& val)
 
 bool ExistingDir::check(const QVariant& val)
 {
-    if (!val.canConvert(QVariant::String) || val.toString().isEmpty()) {
+    if (!val.canConvert<String>() || val.toString().isEmpty()) {
         return false;
     }
     QFileInfo info(val.toString());
@@ -383,7 +384,7 @@ bool UserColors::check(const QVariant& val)
     if (!val.isValid()) {
         return true;
     }
-    if (!val.canConvert(QVariant::StringList)) {
+    if (!val.canConvert<QStringList>()) {
         return false;
     }
     for (const QString& str : val.toStringList()) {
@@ -458,7 +459,7 @@ QString UserColors::expected()
 
 bool SaveFileExtension::check(const QVariant& val)
 {
-    if (!val.canConvert(QVariant::String) || val.toString().isEmpty())
+    if (!val.canConvert<String>() || val.toString().isEmpty())
         return false;
 
     QString extension = val.toString();
@@ -515,14 +516,16 @@ QVariant Region::process(const QVariant& val)
         return ScreenGrabber().desktopGeometry();
     } else if (str.startsWith("screen")) {
         bool ok;
-        int number = str.midRef(6).toInt(&ok);
+        QStringView mid = QStringView{str}.mid(6);
+        int number = mid.toInt(&ok);
+        //int number = str.midRef(6).toInt(&ok);
         if (!ok || number < 0) {
             return {};
         }
         return ScreenGrabber().screenGeometry(qApp->screens()[number]);
     }
 
-    QRegExp regex("(-{,1}\\d+)"   // number (any sign)
+    QRegularExpression regex("(-{,1}\\d+)"   // number (any sign)
                   "[x,\\.\\s]"    // separator ('x', ',', '.', or whitespace)
                   "(-{,1}\\d+)"   // number (any sign)
                   "[\\+,\\.\\s]*" // separator ('+',',', '.', or whitespace)
@@ -531,16 +534,16 @@ QVariant Region::process(const QVariant& val)
                   "(-{,1}\\d+)"   // number (non-negative)
     );
 
-    if (!regex.exactMatch(str)) {
+    if (!regex.match(str).hasMatch()) {
         return {};
     }
 
     int w, h, x, y;
     bool w_ok, h_ok, x_ok, y_ok;
-    w = regex.cap(1).toInt(&w_ok);
-    h = regex.cap(2).toInt(&h_ok);
-    x = regex.cap(3).toInt(&x_ok);
-    y = regex.cap(4).toInt(&y_ok);
+    w = regex.match(str).captured(1).toInt(&w_ok);
+    h = regex.match(str).captured(2).toInt(&h_ok);
+    x = regex.match(str).captured(3).toInt(&x_ok);
+    y = regex.match(str).captured(4).toInt(&y_ok);
 
     if (!(w_ok && h_ok && x_ok && y_ok)) {
         return {};
