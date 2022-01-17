@@ -44,6 +44,7 @@ public:
     QSize        color_size; ///< Preferred size for the color squares
     ColorSizePolicy size_policy;
     QPen         border;
+    QPen         selected_pen{Qt::gray, 2, Qt::DotLine};
     int          forced_rows;
     int          forced_columns;
     bool         readonly;  ///< Whether the palette can be modified via user interaction
@@ -73,7 +74,12 @@ public:
           drop_overwrite(false),
           max_color_size(96, 128),
           owner(owner)
-    {}
+    {
+    	// Ensure rectangle with 90 degree edges - default Qt::BevelJoin causes
+    	// rounded / flatted rectangle
+    	border.setJoinStyle(Qt::MiterJoin);
+    	selected_pen.setJoinStyle(Qt::MiterJoin);
+    }
 
     /**
      * \brief Number of rows/columns in the palette
@@ -93,7 +99,7 @@ public:
         if ( forced_columns )
             columns = forced_columns;
         else if ( columns == 0 )
-            columns = qMin(count, owner->width() / color_size.width());
+            columns = qMin(count, (owner->width() - border.width()) / color_size.width());
 
         int rows = std::ceil( float(count) / columns );
 
@@ -191,8 +197,8 @@ public:
     QSizeF actualColorSize(const QSize& rowcols)
     {
         return QSizeF (
-            qMin(qreal(max_color_size.width()), qreal(owner->width()) / rowcols.width()),
-            qMin(qreal(max_color_size.height()), qreal(owner->height()) / rowcols.height())
+            qMin(qreal(max_color_size.width()), qreal(owner->width() - border.width()) / rowcols.width()),
+            qMin(qreal(max_color_size.height()), qreal(owner->height()  - border.width()) / rowcols.height())
         );
     }
 
@@ -208,8 +214,8 @@ public:
             return QRectF();
 
         return QRectF(
-            index % rowcols.width() * color_size.width(),
-            index / rowcols.width() * color_size.height(),
+            index % rowcols.width() * color_size.width() + border.width() / 2,
+            index / rowcols.width() * color_size.height() + border.width() / 2,
             color_size.width(),
             color_size.height()
         );
@@ -347,6 +353,21 @@ void Swatch::setSelected(int selected)
     update();
 }
 
+
+bool Swatch::setSelectedColor(const QColor& color)
+{
+	for (int i = 0; i < p->palette.count(); i++)
+	{
+		if (p->palette.colorAt(i) == color)
+		{
+			setSelected(i);
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void Swatch::clearSelection()
 {
     setSelected(-1);
@@ -433,10 +454,10 @@ void Swatch::paintEvent(QPaintEvent* event)
     if ( p->selected != -1 )
     {
         QRectF rect = p->indexRect(p->selected, rowcols, color_size);
+        int offset = p->border.width() / 2;
+        rect.adjust(offset, offset, -offset, -offset);
         painter.setBrush(Qt::transparent);
-        painter.setPen(QPen(Qt::darkGray, 2));
-        painter.drawRect(rect);
-        painter.setPen(QPen(Qt::gray, 2, Qt::DotLine));
+        painter.setPen(p->selected_pen);
         painter.drawRect(rect);
     }
 }
@@ -862,6 +883,23 @@ void Swatch::setBorder(const QPen& border)
     }
 }
 
+
+void Swatch::setSelectionPen(const QPen& selected)
+{
+    if ( selected != p->selected_pen )
+    {
+        p->selected_pen = selected;
+        update();
+    }
+}
+
+
+QPen Swatch::selectionPen() const
+{
+	return p->selected_pen;
+}
+
+
 bool Swatch::showClearColor() const
 {
     return p->show_clear_color;
@@ -875,5 +913,6 @@ void Swatch::setShowClearColor(bool show)
         update();
     }
 }
+
 
 } // namespace color_widgets
