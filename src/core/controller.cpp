@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+#include <QList>// SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2017-2019 Alejandro Sirgo Rica & Contributors
 
 #include "controller.h"
@@ -32,7 +32,6 @@
 #include <QClipboard>
 #include <QDebug>
 #include <QDesktopServices>
-#include <QDesktopWidget>
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>

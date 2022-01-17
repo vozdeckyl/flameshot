@@ -31,7 +31,6 @@
 #include <QApplication>
 #include <QDateTime>
 #include <QDebug>
-#include <QDesktopWidget>
 #include <QFontMetrics>
 #include <QLabel>
 #include <QPaintEvent>
@@ -1064,10 +1063,10 @@ void CaptureWidget::initSelection()
             OverlayMessage::push(m_helpMessage);
         }
     });
-    if (!initialSelection.isNull()) {
-        initialSelection.moveTopLeft(initialSelection.topLeft() -
-                                     mapToGlobal({}));
-    }
+    //if (!initialSelection.isNull()) {
+    //    initialSelection.moveTopLeft(initialSelection.topLeft() -
+    //                                 mapToGlobal({}));
+    //}
     m_selection->setGeometry(initialSelection);
     m_selection->setVisible(!initialSelection.isNull());
     if (!initialSelection.isNull()) {

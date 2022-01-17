@@ -87,7 +87,7 @@ int main(int argc, char* argv[])
 
     // required for the button serialization
     // TODO: change to QVector in v1.0
-    qRegisterMetaTypeStreamOperators<QList<int>>("QList<int>");
+    //qRegisterMetaTypeStreamOperators<QList<int>>("QList<int>");
     QCoreApplication::setApplicationVersion(APP_VERSION);
     QCoreApplication::setApplicationName(QStringLiteral("flameshot"));
     QCoreApplication::setOrganizationName(QStringLiteral("flameshot"));
