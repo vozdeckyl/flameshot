@@ -3,6 +3,7 @@ find_package(
         CONFIG
         REQUIRED
         Core
+        Core5Compat
         Gui
         Widgets
         Network
