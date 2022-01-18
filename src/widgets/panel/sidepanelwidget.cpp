@@ -56,8 +56,8 @@ SidePanelWidget::SidePanelWidget(QPixmap* p, QWidget* parent)
 
     m_layout->addLayout(colorLayout);
 
-    m_colorWheel = new color_widgets::ColorWheel(this);
-    m_colorWheel->setColor(m_color);
+    //m_colorWheel = new color_widgets::ColorWheel(this);
+    //m_colorWheel->setColor(m_color);
     m_colorHex = new QLineEdit(this);
     m_colorHex->setAlignment(Qt::AlignCenter);
 
@@ -69,7 +69,7 @@ SidePanelWidget::SidePanelWidget(QPixmap* p, QWidget* parent)
     m_colorGrabButton = new QPushButton(grabIcon, tr("Grab Color"));
 
     m_layout->addWidget(m_colorGrabButton);
-    m_layout->addWidget(m_colorWheel);
+    //m_layout->addWidget(m_colorWheel);
     m_layout->addWidget(m_colorHex);
 
     // tool size sigslots
@@ -96,17 +96,17 @@ SidePanelWidget::SidePanelWidget(QPixmap* p, QWidget* parent)
             &SidePanelWidget::startColorGrab);
     // color wheel sigslots
     //   re-emit ColorWheel::colorSelected as SidePanelWidget::colorChanged
-    connect(m_colorWheel,
-            &color_widgets::ColorWheel::colorSelected,
-            this,
-            &SidePanelWidget::colorChanged);
+    //connect(m_colorWheel,
+    //        &color_widgets::ColorWheel::colorSelected,
+    //        this,
+    //        &SidePanelWidget::colorChanged);
 }
 
 void SidePanelWidget::onColorChanged(const QColor& c)
 {
     m_color = c;
     updateColorNoWheel(c);
-    m_colorWheel->setColor(c);
+    //m_colorWheel->setColor(c);
 }
 
 void SidePanelWidget::onToolSizeChanged(const int& t)

@@ -52,6 +52,7 @@ void ScreenshotSaver::saveToClipboardMime(const QPixmap& capture,
 // dbus, the application freezes.
 void ScreenshotSaver::saveToClipboard(const QPixmap& capture)
 {
+    qDebug() << "saving to clipboard";
     // If we are able to properly save the file, save the file and copy to
     // clipboard.
     if ((ConfigHandler().saveAfterCopy()) &&
@@ -68,10 +69,12 @@ void ScreenshotSaver::saveToClipboard(const QPixmap& capture)
     } else {
         // Need to send message before copying to clipboard
 #if defined(Q_OS_LINUX) || defined(Q_OS_UNIX)
-        if (DesktopInfo().waylandDetected()) {
+        if (true || DesktopInfo().waylandDetected()) {
+            qDebug() << "waland cliboard";
             saveToClipboardMime(capture, "png");
         } else {
             QApplication::clipboard()->setPixmap(capture);
+            qDebug() << "X11 clipboard";
         }
 #else
         QApplication::clipboard()->setPixmap(capture);

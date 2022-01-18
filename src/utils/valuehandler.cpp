@@ -240,11 +240,12 @@ QVariant KeySequence::process(const QVariant& val)
 
 bool ExistingDir::check(const QVariant& val)
 {
-    if (!val.canConvert<String>() || val.toString().isEmpty()) {
-        return false;
-    }
-    QFileInfo info(val.toString());
-    return info.isDir() && info.exists();
+  return true;
+    // if (!val.canConvert<String>() || val.toString().isEmpty()) {
+    //     return false;
+    // }
+    // QFileInfo info(val.toString());
+    // return info.isDir() && info.exists();
 }
 
 QVariant ExistingDir::fallback()
@@ -381,17 +382,17 @@ bool ButtonList::normalizeButtons(QList<int>& buttons)
 
 bool UserColors::check(const QVariant& val)
 {
-    if (!val.isValid()) {
-        return true;
-    }
-    if (!val.canConvert<QStringList>()) {
-        return false;
-    }
-    for (const QString& str : val.toStringList()) {
-        if (!QColor::isValidColor(str) && str != "picker") {
-            return false;
-        }
-    }
+    //if (!val.isValid()) {
+    //    return true;
+    //}
+    //if (!val.canConvert<QStringList>()) {
+    //    return false;
+    //}
+    //for (const QString& str : val.toStringList()) {
+    //    if (!QColor::isValidColor(str) && str != "picker") {
+    //        return false;
+    //    }
+    //}
     return true;
 }
 
@@ -505,49 +506,51 @@ bool Region::check(const QVariant& val)
 QVariant Region::process(const QVariant& val)
 {
     // FIXME: This is temporary, just before D-Bus is removed
-    char** argv = new char*[1];
-    int* argc = new int{ 0 };
-    if (QGuiApplication::screens().empty())
-        new QApplication(*argc, argv);
+    //char** argv = new char*[1];
+    //int* argc = new int{ 0 };
+    //if (QGuiApplication::screens().empty())
+    //    new QApplication(*argc, argv);
 
-    QString str = val.toString();
+    //QString str = val.toString();
 
-    if (str == "all") {
-        return ScreenGrabber().desktopGeometry();
-    } else if (str.startsWith("screen")) {
-        bool ok;
-        QStringView mid = QStringView{str}.mid(6);
-        int number = mid.toInt(&ok);
-        //int number = str.midRef(6).toInt(&ok);
-        if (!ok || number < 0) {
-            return {};
-        }
-        return ScreenGrabber().screenGeometry(qApp->screens()[number]);
-    }
+    //if (str == "all") {
+    //    return ScreenGrabber().desktopGeometry();
+    //} else if (str.startsWith("screen")) {
+    //    bool ok;
+    //    QStringView mid = QStringView{str}.mid(6);
+    //    int number = mid.toInt(&ok);
+    //    //int number = str.midRef(6).toInt(&ok);
+    //    if (!ok || number < 0) {
+    //        return {};
+    //    }
+    //    return ScreenGrabber().screenGeometry(qApp->screens()[number]);
+    //}
 
-    QRegularExpression regex("(-{,1}\\d+)"   // number (any sign)
-                  "[x,\\.\\s]"    // separator ('x', ',', '.', or whitespace)
-                  "(-{,1}\\d+)"   // number (any sign)
-                  "[\\+,\\.\\s]*" // separator ('+',',', '.', or whitespace)
-                  "(-{,1}\\d+)"   // number (non-negative)
-                  "[\\+,\\.\\s]*" // separator ('+', ',', '.', or whitespace)
-                  "(-{,1}\\d+)"   // number (non-negative)
-    );
+    //QRegularExpression regex("(-{,1}\\d+)"   // number (any sign)
+    //              "[x,\\.\\s]"    // separator ('x', ',', '.', or whitespace)
+    //              "(-{,1}\\d+)"   // number (any sign)
+    //              "[\\+,\\.\\s]*" // separator ('+',',', '.', or whitespace)
+    //              "(-{,1}\\d+)"   // number (non-negative)
+    //              "[\\+,\\.\\s]*" // separator ('+', ',', '.', or whitespace)
+    //              "(-{,1}\\d+)"   // number (non-negative)
+    //);
 
-    if (!regex.match(str).hasMatch()) {
-        return {};
-    }
+    //if (!regex.match(str).hasMatch()) {
+    //    return {};
+    //}
 
-    int w, h, x, y;
-    bool w_ok, h_ok, x_ok, y_ok;
-    w = regex.match(str).captured(1).toInt(&w_ok);
-    h = regex.match(str).captured(2).toInt(&h_ok);
-    x = regex.match(str).captured(3).toInt(&x_ok);
-    y = regex.match(str).captured(4).toInt(&y_ok);
+    //int w, h, x, y;
+    //bool w_ok, h_ok, x_ok, y_ok;
+    //w = regex.match(str).captured(1).toInt(&w_ok);
+    //h = regex.match(str).captured(2).toInt(&h_ok);
+    //x = regex.match(str).captured(3).toInt(&x_ok);
+    //y = regex.match(str).captured(4).toInt(&y_ok);
 
-    if (!(w_ok && h_ok && x_ok && y_ok)) {
-        return {};
-    }
+    //if (!(w_ok && h_ok && x_ok && y_ok)) {
+    //    return {};
+    //}
+
+  int x,y,w,h =0;
 
     return QRect(x, y, w, h).normalized();
 }

@@ -33,7 +33,7 @@ private:
     CaptureToolButton* m_buttonContrast;
     ClickableLabel* m_labelContrast;
     CaptureToolButton* m_lastButtonPressed;
-    color_widgets::ColorWheel* m_colorWheel;
+    // color_widgets::ColorWheel* m_colorWheel;
 
     static const CaptureTool::Type m_buttonIconType = CaptureTool::TYPE_CIRCLE;
 

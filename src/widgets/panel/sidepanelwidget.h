@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "QtColorWidgets/color_wheel.hpp"
+// #include "QtColorWidgets/color_wheel.hpp"
 #include <QWidget>
 
 class QVBoxLayout;
@@ -51,7 +51,7 @@ private:
     QVBoxLayout* m_layout;
     QPushButton* m_colorGrabButton;
     ColorGrabWidget* m_colorGrabber;
-    color_widgets::ColorWheel* m_colorWheel;
+    //color_widgets::ColorWheel* m_colorWheel;
     QLabel* m_colorLabel;
     QLineEdit* m_colorHex;
     QPixmap* m_pixmap;

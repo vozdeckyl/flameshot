@@ -25,7 +25,7 @@ UIcolorEditor::UIcolorEditor(QWidget* parent)
     m_vLayout->setAlignment(Qt::AlignVCenter);
 
     initButtons();
-    initColorWheel();
+    //initColorWheel();
 
     m_vLayout->addSpacing(space);
     m_hLayout->addLayout(m_vLayout);
@@ -41,11 +41,11 @@ void UIcolorEditor::updateComponents()
     m_contrastColor = config.contrastUiColor();
     m_buttonContrast->setColor(m_contrastColor);
     m_buttonMainColor->setColor(m_uiColor);
-    if (m_lastButtonPressed == m_buttonMainColor) {
-        m_colorWheel->setColor(m_uiColor);
-    } else {
-        m_colorWheel->setColor(m_contrastColor);
-    }
+    //if (m_lastButtonPressed == m_buttonMainColor) {
+    //    m_colorWheel->setColor(m_uiColor);
+    //} else {
+    //    m_colorWheel->setColor(m_contrastColor);
+    //}
 }
 
 // updateUIcolor updates the appearance of the buttons
@@ -72,24 +72,24 @@ void UIcolorEditor::updateLocalColor(const QColor c)
 
 void UIcolorEditor::initColorWheel()
 {
-    m_colorWheel = new color_widgets::ColorWheel(this);
-    connect(m_colorWheel,
-            &color_widgets::ColorWheel::colorSelected,
-            this,
-            &UIcolorEditor::updateUIcolor);
-    connect(m_colorWheel,
-            &color_widgets::ColorWheel::colorChanged,
-            this,
-            &UIcolorEditor::updateLocalColor);
+    //m_colorWheel = new color_widgets::ColorWheel(this);
+    // connect(m_colorWheel,
+    //         &color_widgets::ColorWheel::colorSelected,
+    //         this,
+    //         &UIcolorEditor::updateUIcolor);
+    // connect(m_colorWheel,
+    //         &color_widgets::ColorWheel::colorChanged,
+    //         this,
+    //         &UIcolorEditor::updateLocalColor);
 
-    const int size = GlobalValues::buttonBaseSize() * 3;
-    m_colorWheel->setMinimumSize(size, size);
-    m_colorWheel->setMaximumSize(size * 2, size * 2);
-    m_colorWheel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    m_colorWheel->setToolTip(tr("Change the color moving the selectors and see"
-                                " the changes in the preview buttons."));
+    // const int size = GlobalValues::buttonBaseSize() * 3;
+    // m_colorWheel->setMinimumSize(size, size);
+    // m_colorWheel->setMaximumSize(size * 2, size * 2);
+    // m_colorWheel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    // m_colorWheel->setToolTip(tr("Change the color moving the selectors and see"
+    //                             " the changes in the preview buttons."));
 
-    m_hLayout->addWidget(m_colorWheel);
+    // m_hLayout->addWidget(m_colorWheel);
 }
 
 void UIcolorEditor::initButtons()
@@ -156,15 +156,15 @@ void UIcolorEditor::changeLastButton(CaptureToolButton* b)
 
         QString offStyle(QStringLiteral("QLabel { color : gray; }"));
 
-        if (b == m_buttonMainColor) {
-            m_colorWheel->setColor(m_uiColor);
-            m_labelContrast->setStyleSheet(offStyle);
-            m_labelMain->setStyleSheet(styleSheet());
-        } else {
-            m_colorWheel->setColor(m_contrastColor);
-            m_labelContrast->setStyleSheet(styleSheet());
-            m_labelMain->setStyleSheet(offStyle);
-        }
+        //if (b == m_buttonMainColor) {
+        //    m_colorWheel->setColor(m_uiColor);
+        //    m_labelContrast->setStyleSheet(offStyle);
+        //    m_labelMain->setStyleSheet(styleSheet());
+        //} else {
+        //    m_colorWheel->setColor(m_contrastColor);
+        //    m_labelContrast->setStyleSheet(styleSheet());
+        //    m_labelMain->setStyleSheet(offStyle);
+        //}
         b->setIcon(b->icon());
     }
 }
