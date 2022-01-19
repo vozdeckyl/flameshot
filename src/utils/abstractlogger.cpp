@@ -46,7 +46,7 @@ AbstractLogger AbstractLogger::error(int targets)
 }
 
 AbstractLogger& AbstractLogger::sendMessage(QString msg, Channel channel)
-{
+{/*
     if (m_targets & Notification) {
         SystemNotification().sendMessage(
           msg, messageHeader(channel, Notification), m_notificationPath);
@@ -62,7 +62,7 @@ AbstractLogger& AbstractLogger::sendMessage(QString msg, Channel channel)
     if (m_targets & Stderr) {
         QTextStream stream(stderr);
         stream << messageHeader(channel, Stderr) << msg << "\n";
-    }
+    }*/
     return *this;
 }
 

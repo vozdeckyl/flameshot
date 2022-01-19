@@ -113,7 +113,7 @@ int main(int argc, char* argv[])
                 break;
             }
         }
-
+/*
         qtTranslator.load(
           QLocale::system(),
           "qt",
@@ -122,6 +122,7 @@ int main(int argc, char* argv[])
 
         qApp->installTranslator(&translator);
         qApp->installTranslator(&qtTranslator);
+        */
         qApp->setAttribute(Qt::AA_DontCreateNativeWidgetSiblings, true);
 
         auto c = Controller::getInstance();
