@@ -24,6 +24,10 @@ if (USE_QT6)
 endif()
 
 
+if (USE_WAYLAND_CLIPBOARD)
+    find_package(KF5GuiAddons)
+endif()
+
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
@@ -223,6 +227,9 @@ if (USE_QT6)
           flameshot
           Qt6::Core5Compat
   )
+if (USE_WAYLAND_CLIPBOARD)
+  target_compile_definitions(flameshot PRIVATE USE_WAYLAND_CLIPBOARD=1)
+  target_link_libraries(flameshot KF5::GuiAddons)
 endif()
 
 if (APPLE)
