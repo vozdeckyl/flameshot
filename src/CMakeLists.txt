@@ -214,7 +214,6 @@ target_link_libraries(
         Qt${QT_VERSION_MAJOR}::Widgets
         ${QTSINGLEAPPLICATION_LIBRARY}
         QtColorWidgets
-
 )
 
 if (USE_WAYLAND_CLIPBOARD)
