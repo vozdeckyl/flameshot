@@ -3,7 +3,6 @@ find_package(
         CONFIG
         REQUIRED
         Core
-        Core5Compat
         Gui
         Widgets
         Network
@@ -28,6 +27,16 @@ endif()
 if (USE_WAYLAND_CLIPBOARD)
     find_package(KF5GuiAddons)
 endif()
+
+if (USE_QT6)
+  find_package(
+      Qt6
+          CONFIG
+          REQUIRED
+          Core5Compat
+          )
+endif()
+
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -231,6 +240,11 @@ if (USE_QT6)
 if (USE_WAYLAND_CLIPBOARD)
   target_compile_definitions(flameshot PRIVATE USE_WAYLAND_CLIPBOARD=1)
   target_link_libraries(flameshot KF5::GuiAddons)
+if (USE_QT6)
+  target_link_libraries(
+          flameshot
+          Qt6::Core5Compat
+  )
 endif()
 
 if (APPLE)
