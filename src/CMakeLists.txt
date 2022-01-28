@@ -23,18 +23,8 @@ if (USE_QT6)
           )
 endif()
 
-
 if (USE_WAYLAND_CLIPBOARD)
     find_package(KF5GuiAddons)
-endif()
-
-if (USE_QT6)
-  find_package(
-      Qt6
-          CONFIG
-          REQUIRED
-          Core5Compat
-          )
 endif()
 
 
@@ -236,20 +226,13 @@ if (USE_QT6)
   target_link_libraries(
           flameshot
           Qt6::Core5Compat
-  )
+)
+endif()
 if (USE_WAYLAND_CLIPBOARD)
   target_compile_definitions(flameshot PRIVATE USE_WAYLAND_CLIPBOARD=1)
   target_link_libraries(flameshot KF5::GuiAddons)
 
 endif()
-
-if (USE_QT6)
-  target_link_libraries(
-          flameshot
-          Qt6::Core5Compat
-  )
-endif()
-
 if (APPLE)
     set(MACOSX_BUNDLE_IDENTIFIER "org.flameshot")
     set_target_properties(
