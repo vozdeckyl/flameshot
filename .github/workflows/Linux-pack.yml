@@ -309,7 +309,7 @@ jobs:
               symbol: 35,
               arch: x86_64
             }
-          - {
+         - {
               name: opensuse-leap-15.2,
               os: opensuse-leap,
               symbol: 15.2,
