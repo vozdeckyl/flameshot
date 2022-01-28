@@ -384,7 +384,7 @@ void CaptureWidget::initHelpMessage()
         keyMap << std::pair(tr("Mouse Wheel"), tr("Change tool size"));
         keyMap << std::pair(tr("Right Click"), tr("Show color picker"));
         keyMap << std::pair(ConfigHandler().shortcut("TYPE_TOGGLE_PANEL"),
-                        tr("Open side panel"));
+                            tr("Open side panel"));
         keyMap << std::pair(tr("Esc"), tr("Exit"));
     }
     m_helpMessage = OverlayMessage::compileFromKeyMap(keyMap);

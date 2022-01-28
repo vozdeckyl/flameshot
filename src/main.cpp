@@ -82,7 +82,7 @@ int main(int argc, char* argv[])
     wayland_hacks();
 #endif
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     qRegisterMetaTypeStreamOperators<QList<int>>("QList<int>");
 #endif
     QCoreApplication::setApplicationVersion(APP_VERSION);
@@ -122,7 +122,7 @@ int main(int argc, char* argv[])
         qApp->installTranslator(&qtTranslator);
         qApp->setAttribute(Qt::AA_DontCreateNativeWidgetSiblings, true);
 
-        auto *c = Controller::getInstance();
+        auto* c = Controller::getInstance();
         FlameshotDaemon::start();
 
 #if !(defined(Q_OS_MACOS) || defined(Q_OS_WIN))

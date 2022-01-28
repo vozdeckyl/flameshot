@@ -1,4 +1,4 @@
-#include <QList>// SPDX-License-Identifier: GPL-3.0-or-later
+#include <QList> // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2017-2019 Alejandro Sirgo Rica & Contributors
 
 #include "controller.h"
@@ -79,11 +79,11 @@ Controller::Controller()
     // CaptureWidget
     QScreen* currentScreen = QGuiAppCurrentScreen().currentScreen();
 
-    #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     currentScreen->grabWindow(QApplication::desktop()->winId(), 0, 0, 1, 1);
-    #else
+#else
     currentScreen->grabWindow(0, 0, 0, 1, 1);
-    #endif
+#endif
 
     // set global shortcuts for MacOS
     m_HotkeyScreenshotCapture = new QHotkey(
