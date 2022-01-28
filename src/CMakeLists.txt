@@ -240,6 +240,9 @@ if (USE_QT6)
 if (USE_WAYLAND_CLIPBOARD)
   target_compile_definitions(flameshot PRIVATE USE_WAYLAND_CLIPBOARD=1)
   target_link_libraries(flameshot KF5::GuiAddons)
+
+endif()
+
 if (USE_QT6)
   target_link_libraries(
           flameshot
