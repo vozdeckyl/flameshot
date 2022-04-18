@@ -15,8 +15,8 @@ public:
     void setFont(const QFont& f);
 
 protected:
-    void showEvent(QShowEvent* e);
-    void resizeEvent(QResizeEvent* e);
+    void showEvent(QShowEvent* e) override;
+    void resizeEvent(QResizeEvent* e) override;
 
 signals:
     void textUpdated(const QString& s);

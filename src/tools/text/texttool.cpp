@@ -5,6 +5,8 @@
 #include "src/utils/confighandler.h"
 #include "textconfig.h"
 #include "textwidget.h"
+#include <QEvent>
+#include <QKeyEvent>
 
 #define BASE_POINT_SIZE 8
 #define MAX_INFO_LENGTH 24
@@ -18,10 +20,16 @@ TextTool::TextTool(QObject* parent)
         m_font.setFamily(ConfigHandler().fontFamily());
     }
     m_alignment = Qt::AlignLeft;
+
+    if (parent != nullptr) {
+        parent->installEventFilter(this);
+    }
+
 }
 
 TextTool::~TextTool()
 {
+    this->parent()->removeEventFilter(this);
     closeEditor();
 }
 
@@ -354,4 +362,22 @@ void TextTool::setEditMode(bool editMode)
 bool TextTool::isChanged()
 {
     return QString::compare(m_text, m_textOld, Qt::CaseInsensitive) != 0;
+}
+
+
+bool TextTool::eventFilter(QObject* obj, QEvent* event)
+{
+    if (event->type() == QEvent::ShortcutOverride) {
+        // Override Escape shortcut from CaptureWidget
+        auto* e = static_cast<QKeyEvent*>(event);
+        if (e->key() == Qt::Key_Escape) {
+            e->accept();
+            updateText(this->m_widget->toPlainText());
+            closeEditor();
+            this->parent()->removeEventFilter(this);
+            return true;
+        }
+    }
+
+    return QObject::eventFilter(obj, event);
 }

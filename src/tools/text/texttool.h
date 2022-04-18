@@ -46,6 +46,8 @@ public:
 protected:
     void copyParams(const TextTool* from, TextTool* to);
     [[nodiscard]] CaptureTool::Type type() const override;
+    bool eventFilter(QObject* obj, QEvent* event) override;
+
 
 public slots:
     void drawEnd(const QPoint& point) override;
