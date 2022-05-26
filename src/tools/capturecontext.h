@@ -4,16 +4,16 @@
 #pragma once
 
 #include "capturerequest.h"
+#include <QColor>
+#include <QGraphicsBlurEffect>
+#include <QGraphicsPixmapItem>
+#include <QGraphicsScene>
+#include <QImage>
+#include <QLabel>
 #include <QPainter>
 #include <QPixmap>
 #include <QPoint>
 #include <QRect>
-#include <QColor>
-#include <QImage>
-#include <QGraphicsBlurEffect>
-#include <QLabel>
-#include <QGraphicsPixmapItem>
-#include <QGraphicsScene>
 
 struct CaptureContext
 {
@@ -39,7 +39,7 @@ struct CaptureContext
     bool fullscreen;
     // save the selection with the grayed out surroundings
     bool grayedOutScreenshot = false;
-    
+
     CaptureRequest request = CaptureRequest::GRAPHICAL_MODE;
 
     QPixmap selectedScreenshotArea() const;

@@ -8,6 +8,7 @@
 #include "circlecount/circlecounttool.h"
 #include "copy/copytool.h"
 #include "exit/exittool.h"
+#include "grayout/grayouttool.h"
 #include "imgupload/imguploadertool.h"
 #include "invert/inverttool.h"
 #include "launcher/applaunchertool.h"
@@ -26,7 +27,6 @@
 #include "sizeindicator/sizeindicatortool.h"
 #include "text/texttool.h"
 #include "undo/undotool.h"
-#include "grayout/grayouttool.h"
 
 ToolFactory::ToolFactory(QObject* parent)
   : QObject(parent)
@@ -65,7 +65,7 @@ CaptureTool* ToolFactory::CreateTool(CaptureTool::Type t, QObject* parent)
         if_TYPE_return_TOOL(TYPE_SIZEDECREASE, SizeDecreaseTool);
         if_TYPE_return_TOOL(TYPE_INVERT, InvertTool);
         if_TYPE_return_TOOL(TYPE_ACCEPT, AcceptTool);
-	if_TYPE_return_TOOL(TYPE_GRAYOUT, GrayoutTool);
+        if_TYPE_return_TOOL(TYPE_GRAYOUT, GrayoutTool);
         default:
             return nullptr;
     }
