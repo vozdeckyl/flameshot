@@ -39,6 +39,7 @@
 #include <QScreen>
 #include <QShortcut>
 #include <draggablewidgetmaker.h>
+#include <iostream>
 
 #define MOUSE_DISTANCE_TO_START_MOVING 3
 

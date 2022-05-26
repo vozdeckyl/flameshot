@@ -6,6 +6,7 @@ target_sources(flameshot PRIVATE copy/copytool.h copy/copytool.cpp)
 target_sources(flameshot PRIVATE exit/exittool.h exit/exittool.cpp)
 target_sources(flameshot PRIVATE sizeincrease/sizeincreasetool.h sizeincrease/sizeincreasetool.cpp)
 target_sources(flameshot PRIVATE sizedecrease/sizedecreasetool.h sizedecrease/sizedecreasetool.cpp)
+target_sources(flameshot PRIVATE grayout/grayouttool.h grayout/grayouttool.cpp)
 target_sources(
   flameshot
         PRIVATE imgupload/storages/imgur/imguruploader.h

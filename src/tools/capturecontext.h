@@ -8,6 +8,12 @@
 #include <QPixmap>
 #include <QPoint>
 #include <QRect>
+#include <QColor>
+#include <QImage>
+#include <QGraphicsBlurEffect>
+#include <QLabel>
+#include <QGraphicsPixmapItem>
+#include <QGraphicsScene>
 
 struct CaptureContext
 {
@@ -31,6 +37,9 @@ struct CaptureContext
     int circleCount;
     // Mode of the capture widget
     bool fullscreen;
+    // save the selection with the grayed out surroundings
+    bool grayedOutScreenshot = false;
+    
     CaptureRequest request = CaptureRequest::GRAPHICAL_MODE;
 
     QPixmap selectedScreenshotArea() const;
