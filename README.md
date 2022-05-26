@@ -268,18 +268,26 @@ Steps for using the configuration:
     ln -s /var/lib/flatpak/exports/bin/org.flameshot.Flameshot ~/.local/bin/flameshot
     ```
 
-#### On Ubuntu (Tested on 18.04, 20.04)
+#### On Ubuntu (Tested on 18.04, 20.04, 22.04)
 
 To use Flameshot instead of the default screenshot application in Ubuntu we need to remove the binding on <kbd>Prt Sc</kbd> key, and then create a new binding for `/usr/bin/flameshot gui` ([adaptated](https://askubuntu.com/posts/1039949/revisions) from [Pavel's answer on AskUbuntu](https://askubuntu.com/revisions/1036473/1)).
 
-1. Remove the binding on <kbd>Prt Sc</kbd> using the following command.
+1. Remove the binding on <kbd>Prt Sc</kbd>:
 
-  ```shell
-  gsettings set org.gnome.settings-daemon.plugins.media-keys screenshot '[]'
-  ```
+   Ubuntu 18.04/20.04 using the following command:
+    ```shell
+    gsettings set org.gnome.settings-daemon.plugins.media-keys screenshot '[]'
+    ```
+   
+   Ubuntu 22.04: Go to _Settings_ > _Keyboard_ > _View and Customise Shortcuts_ > _Screenshots_ > _Take a screenshot interactively_ and press `backspace`
 
-2. Ubuntu 18.04: Go to Settings > Device > Keyboard and press the '+' button at the bottom.
-   Ubuntu 20.04: Go to Settings > Keyboard and press the '+' button at the bottom.
+2. Add custom binding on <kbd>Prt Sc</kbd>:
+ 
+   Ubuntu 18.04: Go to _Settings_ > _Device_ > _Keyboard_ and press the '+' button at the bottom.
+   
+   Ubuntu 20.04: Go to _Settings_ > _Keyboard_ and press the '+' button at the bottom.
+   
+   Ubuntu 22.04: Go to _Settings_ > _Keyboard_ > _View and Customise Shortcuts_ > _Custom shortcuts_ and press the '+' button at the bottom.
 
 3. Name the command as you like it, e.g. `flameshot`. And in the command insert `/usr/bin/flameshot gui`.
 
@@ -353,12 +361,9 @@ There are packages available in the repository of some Linux distributions:
 **Note** that because of macOS security features, you may not be able to open flameshot when installed using brew.
 If you see the message `“flameshot” cannot be opened because the developer cannot be verified.` you will need to
 follow the steps below: 
-1. Go to system preferences -> security & privacy; 
-1. Click on the `General` tab; 
-1. Click on the lock and authenticate; 
-1. In the section `Allow apps downloaded from` select the option `App Store and identified developers`; 
-1. Click on the button `Open Anyway` close to the message `"flameshot" was blocked from use because it is not from an identified developer`; 
-1. Click the `Open` button in the popup.
+1. Go to the Applications folder (Finder > Go > Applications, or <kbd>Shift</kbd>+<kbd>Command</kbd>+<kbd>A</kbd>) 
+1. Right-Click on "flameshot.app" and choose "Open" from the context menu
+2. In the dialog click "Open"
 
 After following all those steps above, `flameshot` will open without problems in your Mac.
 
